@@ -16,7 +16,9 @@ namespace Tetris
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            GameForm gameForm = new GameForm();
+            Game game = new Game(gameForm);
+            Application.Run(gameForm);
         }
     }
 }
