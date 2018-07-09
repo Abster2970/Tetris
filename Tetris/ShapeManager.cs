@@ -10,15 +10,11 @@ namespace Tetris
 {
     public static class ShapeManager
     {
-        public static IReadOnlyCollection<Shape> AvailableShapes => _availableShapes;
-
-        private static List<Shape> _availableShapes;
         private static List<Color> _availableColors;
 
         static ShapeManager()
         {
             InitializeColors();
-            InitializeShapes();
         }
 
         private static void InitializeColors()
@@ -33,219 +29,215 @@ namespace Tetris
             };
         }
 
-        private static void InitializeShapes()
+        private static List<ShapePart> GetRandomShapeParts()
         {
-            _availableShapes = new List<Shape>();
+            int randomShapeNumber = Randomizer.GetRandomNumber(0, 7);
 
-            //  *
-            //* ^ *
-            Shape shape1 = new Shape();
-            shape1.AddShapeParts(new List<ShapePart> {
-                new ShapePart
-                {
-                    IsPivotal = true,
-                    X = 0,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = -1,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = -1
-                },
-                new ShapePart
-                {
-                    X = 1,
-                    Y = 0
-                }
-            });
-            _availableShapes.Add(shape1);
+            switch (randomShapeNumber)
+            {
+                case 0:
+                    //  *
+                    //* ^ *
+                    return new List<ShapePart> {
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 0,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = -1,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = -1
+                        },
+                        new ShapePart
+                        {
+                            X = 1,
+                            Y = 0
+                        }
+                    };
+                case 1:
+                    // *
+                    // *
+                    // ^ *
+                    return new List<ShapePart>
+                    {
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 0,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = 1,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = -1
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = -2
+                        }
+                    };
+                case 2:
+                    // *
+                    // ^
+                    // *
+                    // *
+                    return new List<ShapePart> {
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 0,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = -1
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = 1
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = 2
+                        }
+                    };
+                case 3:
+                    // * ^ * 
+                    // *   *
+                    return new List<ShapePart> {
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 0,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = -1,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = -1,
+                            Y = 1
+                        },
+                        new ShapePart
+                        {
+                            X = 1,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = 1,
+                            Y = 1
+                        }
+                    };
+                case 4:
+                    //   * *
+                    //   ^
+                    // * *
+                    return new List<ShapePart> {
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 0,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = -1
+                        },
+                        new ShapePart
+                        {
+                            X = 1,
+                            Y = -1
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = 1
+                        },
+                        new ShapePart
+                        {
+                            X = -1,
+                            Y = 1
+                        }
+                    };
+                case 5:
+                    //   ^ *
+                    // * *
+                    return new List<ShapePart> {
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 0,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = 1,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            X = 0,
+                            Y = 1
+                        },
+                        new ShapePart
+                        {
+                            X = -1,
+                            Y = 1
+                        }
+                    };
+                case 6:
+                    // ^ ^
+                    // ^ ^
+                    return new List<ShapePart> {
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 0,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 1,
+                            Y = 0
+                        },
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 0,
+                            Y = 1
+                        },
+                        new ShapePart
+                        {
+                            IsPivotal = true,
+                            X = 1,
+                            Y = 1
+                        }
+                    };
+            }
 
-            // *
-            // *
-            // ^ *
-            Shape shape2 = new Shape();
-            shape2.AddShapeParts(new List<ShapePart> {
-                new ShapePart
-                {
-                    IsPivotal = true,
-                    X = 0,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 1,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = -1
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = -2
-                }
-            });
-            _availableShapes.Add(shape2);
-
-            // ^
-            // *
-            // *
-            // *
-            Shape shape3 = new Shape();
-            shape3.AddShapeParts(new List<ShapePart> {
-                new ShapePart
-                {
-                    IsPivotal = true,
-                    X = 0,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = 1
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = 2
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = 3
-                }
-            });
-            _availableShapes.Add(shape3);
-
-            // * ^ * 
-            // *   *
-            Shape shape4 = new Shape();
-            shape4.AddShapeParts(new List<ShapePart> {
-                new ShapePart
-                {
-                    IsPivotal = true,
-                    X = 0,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = -1,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = -1,
-                    Y = 1
-                },
-                new ShapePart
-                {
-                    X = 1,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 1,
-                    Y = 1
-                }
-            });
-            _availableShapes.Add(shape4);
-
-            //   * *
-            //   ^
-            // * *
-            Shape shape5 = new Shape();
-            shape5.AddShapeParts(new List<ShapePart> {
-                new ShapePart
-                {
-                    IsPivotal = true,
-                    X = 0,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = -1
-                },
-                new ShapePart
-                {
-                    X = 1,
-                    Y = -1
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = 1
-                },
-                new ShapePart
-                {
-                    X = -1,
-                    Y = 1
-                }
-            });
-            _availableShapes.Add(shape5);
-
-            //   ^ *
-            // * *
-            Shape shape6 = new Shape();
-            shape6.AddShapeParts(new List<ShapePart> {
-                new ShapePart
-                {
-                    IsPivotal = true,
-                    X = 0,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 1,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = 1
-                },
-                new ShapePart
-                {
-                    X = -1,
-                    Y = 1
-                }
-            });
-            _availableShapes.Add(shape6);
-
-            // ^ *
-            // * *
-            Shape shape7 = new Shape();
-            shape7.AddShapeParts(new List<ShapePart> {
-                new ShapePart
-                {
-                    IsPivotal = true,
-                    X = 0,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 1,
-                    Y = 0
-                },
-                new ShapePart
-                {
-                    X = 0,
-                    Y = 1
-                },
-                new ShapePart
-                {
-                    X = 1,
-                    Y = 1
-                }
-            });
-            _availableShapes.Add(shape7);
+            return null;
         }
 
         private static Color GetRandomColor()
@@ -256,9 +248,13 @@ namespace Tetris
 
         public static Shape GetRandomShape()
         {
-            var toSkip = Randomizer.GetRandomNumber(0, _availableShapes.Count);
-            var randomShape = _availableShapes.Skip(toSkip).First();
+            var randomShapeParts = GetRandomShapeParts();
+
+            var randomShape = new Shape();
+            randomShape.Id = Randomizer.GetRandomNumber(0, int.MaxValue);
+            randomShape.SetShapeParts(randomShapeParts);
             randomShape.Color = GetRandomColor();
+            randomShape.X = GameSettings.GameBoardWidth / 2;
 
             return randomShape;
         }

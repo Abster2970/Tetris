@@ -64,6 +64,7 @@ namespace Tetris
                     int shapePartY = shapeY + offsetY;
                     
                     e.Graphics.FillRectangle(new SolidBrush(shape.Color), shapePartX, shapePartY, cellSize, cellSize);
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Black), shapeX, shapeY, cellSize, cellSize);
                 }
             }
         }

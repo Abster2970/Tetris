@@ -10,6 +10,7 @@ namespace Tetris
 {
     public class Shape
     {
+        public int Id { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public Color Color { get; set; }
@@ -20,6 +21,29 @@ namespace Tetris
         public Shape()
         {
             _shapeParts = new List<ShapePart>();
+        }
+
+        public Shape Copy()
+        {
+            Shape shape = new Shape();
+
+            List<ShapePart> shapeParts = new List<ShapePart>();
+            foreach (var shapePart in _shapeParts)
+            {
+                ShapePart shapePartCopy = new ShapePart();
+                shapePartCopy.X = shapePart.X;
+                shapePartCopy.Y = shapePart.Y;
+                shapePartCopy.IsPivotal = shapePart.IsPivotal;
+                shapeParts.Add(shapePartCopy);
+            }
+
+            shape.SetShapeParts(shapeParts);
+            shape.Id = this.Id;
+            shape.X = this.X;
+            shape.Y = this.Y;
+            shape.Color = this.Color;
+
+            return shape;
         }
 
         // * (-1, -1) * (0, -1) * (1, -1)
@@ -74,19 +98,22 @@ namespace Tetris
             }
         }
 
-        public void AddShapePart(ShapePart shapePart)
+        public void SetShapeParts(IEnumerable<ShapePart> shapeParts)
         {
-            _shapeParts.Add(shapePart);
-        }
-
-        public void AddShapeParts(IEnumerable<ShapePart> shapeParts)
-        {
-            _shapeParts.AddRange(shapeParts);
+            _shapeParts = new List<ShapePart>(shapeParts);
         }
 
         public void RemoveShapePart(ShapePart shapePart)
         {
             _shapeParts.Remove(shapePart);
+        }
+
+        public void UpdateShape(Shape shape)
+        {
+            _shapeParts = new List<ShapePart>(shape.ShapeParts);
+            
+            X = shape.X;
+            Y = shape.Y;
         }
     }
 }

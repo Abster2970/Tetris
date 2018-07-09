@@ -19,36 +19,36 @@ namespace Tetris
             _gameForm.OnGameFormLoad += GameForm_Load;
         }
 
-        public void UpdateGameBoard()
-        {
-            _gameForm.UpdateGameBoard(_gameBoard);
-        }
-
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.W)
-            {
-                _gameBoard.CurrentShape.Y--;
-            }
-            if (e.KeyCode == Keys.A)
-            {
-                _gameBoard.CurrentShape.X--;
-            }
-            if (e.KeyCode == Keys.S)
-            {
-                _gameBoard.CurrentShape.Y++;
-            }
-            if (e.KeyCode == Keys.D)
-            {
-                _gameBoard.CurrentShape.X++;
-            }
-            if (e.KeyCode == Keys.Space)
-            {
-                _gameBoard.CurrentShape.Rotate();
-            }
             if (e.KeyCode == Keys.R)
             {
                 _gameBoard.SpawnShape();
+            }
+
+            var shapeCopy = _gameBoard.CurrentShape.Copy();
+
+            if (e.KeyCode == Keys.A)
+            {
+                shapeCopy.X--;
+            }
+            if (e.KeyCode == Keys.S)
+            {
+                shapeCopy.Y++;
+            }
+            if (e.KeyCode == Keys.D)
+            {
+                shapeCopy.X++;
+            }
+            if (e.KeyCode == Keys.Space)
+            {
+                shapeCopy.Rotate();
+            }
+
+            bool validCoords = _gameBoard.CheckShapeCoords(shapeCopy);
+            if (validCoords)
+            {
+                _gameBoard.CurrentShape.UpdateShape(shapeCopy);
             }
             _gameForm.UpdateGameBoard(_gameBoard);
         }
