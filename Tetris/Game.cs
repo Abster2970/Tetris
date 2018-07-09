@@ -11,21 +11,64 @@ namespace Tetris
     {
         private GameForm _gameForm;
         private GameBoard _gameBoard;
+        private Timer _gameTimer;
+        private int _score;
 
         public Game(GameForm gameForm)
         {
             _gameForm = gameForm;
             _gameForm.OnGameFormKeyDown += GameForm_KeyDown;
             _gameForm.OnGameFormLoad += GameForm_Load;
+            _gameTimer = new Timer();
+            _gameTimer.Interval = 500;
+            _gameTimer.Tick += GameTimer_Tick;
+            _gameTimer.Start();
+        }
+
+        private void UpdateGameState(Shape shape)
+        {
+            var collision = _gameBoard.CheckShapeCollision(shape);
+            if (collision == CollisionType.None)
+            {
+                _gameBoard.CurrentShape.UpdateShape(shape);
+            }
+
+            if (collision == CollisionType.ShapePartOrBottom)
+            {
+                _gameBoard.SpawnShape();
+                int removedRows = _gameBoard.RemoveFullRows();
+                if (removedRows > 0)
+                {
+                    _score += 10;
+                    _gameForm.UpdateScore(_score);
+                }
+            }
+
+            if (collision == CollisionType.GameOver)
+            {
+                GameOver();
+            }
+
+            _gameForm.UpdateGameBoard(_gameBoard);
+            _gameForm.UpdateScore(_score);
+        }
+
+        private void GameOver()
+        {
+            _gameTimer.Stop();
+            _gameForm.GameOver();
+        }
+
+        private void GameTimer_Tick(object sender, EventArgs e)
+        {
+            var shapeCopy = _gameBoard.CurrentShape.Copy();
+            shapeCopy.Y++;
+
+            UpdateGameState(shapeCopy);
         }
 
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.R)
-            {
-                _gameBoard.SpawnShape();
-            }
-
             var shapeCopy = _gameBoard.CurrentShape.Copy();
 
             if (e.KeyCode == Keys.A)
@@ -45,12 +88,7 @@ namespace Tetris
                 shapeCopy.Rotate();
             }
 
-            bool validCoords = _gameBoard.CheckShapeCoords(shapeCopy);
-            if (validCoords)
-            {
-                _gameBoard.CurrentShape.UpdateShape(shapeCopy);
-            }
-            _gameForm.UpdateGameBoard(_gameBoard);
+            UpdateGameState(shapeCopy);
         }
 
         private void GameForm_Load(object sender, EventArgs e)
@@ -60,6 +98,7 @@ namespace Tetris
             int cellSize = GameSettings.CellSize;
 
             _gameBoard = new GameBoard(width, height, cellSize);
+            _gameBoard.SpawnShape();
             _gameForm.UpdateGameBoard(_gameBoard);
         }
     }

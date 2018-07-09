@@ -12,17 +12,18 @@ namespace Tetris
         public int Width => _width;
         public int Height => _height;
         public int CellSize => _cellSize;
-        public List<Shape> Shapes => _shapes;
-        public Shape CurrentShape => Shapes.Last();
+        public List<ShapePart> ShapeParts => _shapeParts;
+        public Shape CurrentShape => _currentShape;
         
         private int _width;
         private int _height;
         private int _cellSize;
-        private List<Shape> _shapes;
+        private List<ShapePart> _shapeParts;
+        private Shape _currentShape;
 
         public GameBoard(int width, int height, int cellSize)
         {
-            _shapes = new List<Shape>();
+            _shapeParts = new List<ShapePart>();
             _width = width;
             _height = height;
             _cellSize = cellSize;
@@ -30,19 +31,35 @@ namespace Tetris
 
         public void SpawnShape()
         {
-            var newShape = ShapeManager.GetRandomShape();
-            _shapes.Add(newShape);
+            if (_currentShape != null)
+            {
+                _currentShape.SetShapePartsFree();
+                _shapeParts.AddRange(_currentShape.ShapeParts);
+            }
+            _currentShape = ShapeManager.GetRandomShape();
         }
 
-        public bool CheckShapeCoords(Shape shape)
+        public CollisionType CheckShapeCollision(Shape shape)
         {
-            if (CollideWithWalls(shape)) return false;
-            if (CollideWithShapes(shape)) return false;
+            if (CollideWithSideWalls(shape))
+            {
+                return CollisionType.SideWall;
+            }
 
-            return true;
+            if (CollideWithShapeParts(_currentShape) && CollideWithTop(_currentShape))
+            {
+                return CollisionType.GameOver;
+            }
+
+            if (CollideWithShapeParts(shape) || CollideWithBottom(shape))
+            {
+                return CollisionType.ShapePartOrBottom;
+            }
+
+            return CollisionType.None;
         }
 
-        private bool CollideWithWalls(Shape shape)
+        private bool CollideWithSideWalls(Shape shape)
         {
             foreach (var shapePart in shape.ShapeParts)
             {
@@ -52,7 +69,7 @@ namespace Tetris
                 int x = shape.X + offsetX;
                 int y = shape.Y + offsetY;
 
-                if (x < 0 || x >= _width || y >= _height)
+                if (x < 0 || x >= _width)
                 {
                     return true;
                 }
@@ -61,26 +78,48 @@ namespace Tetris
             return false;
         }
 
-        private bool CollideWithShapes(Shape shape)
+        private bool CollideWithBottom(Shape shape)
         {
-            var otherShapes = _shapes.Where(x => x.Id != shape.Id);
-
-            foreach (var otherShape in otherShapes)
+            foreach (var shapePart in shape.ShapeParts)
             {
-                foreach (var otherShapePart in otherShape.ShapeParts)
+                var shapePartY = shape.Y + shapePart.Y;
+
+                if (shapePartY >= _height)
                 {
-                    var otherShapePartX = otherShape.X + otherShapePart.X;
-                    var otherShapePartY = otherShape.Y + otherShapePart.Y;
+                    return true;
+                }
+            }
 
-                    foreach (var shapePart in shape.ShapeParts)
+            return false;
+        }
+
+        private bool CollideWithTop(Shape shape)
+        {
+            foreach (var shapePart in shape.ShapeParts)
+            {
+                var shapePartY = shape.Y + shapePart.Y;
+
+                if (shapePartY < 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CollideWithShapeParts(Shape shape)
+        {
+            foreach (var otherShapePart in _shapeParts)
+            {
+                foreach (var shapePart in shape.ShapeParts)
+                {
+                    var shapePartX = shape.X + shapePart.X;
+                    var shapePartY = shape.Y + shapePart.Y;
+
+                    if (shapePartX == otherShapePart.X && shapePartY == otherShapePart.Y)
                     {
-                        var shapePartX = shape.X + shapePart.X;
-                        var shapePartY = shape.Y + shapePart.Y;
-
-                        if (shapePartX == otherShapePartX && shapePartY == otherShapePartY)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
@@ -88,15 +127,42 @@ namespace Tetris
             return false;
         }
 
-        public void RemoveFullRows()
+        public int RemoveFullRows()
         {
+            List<int> rowsToRemove = new List<int>();
+
             for (int i = 0; i < _height; i++)
             {
+                int count = 0;
+
                 for (int j = 0; j < _width; j++)
                 {
-                    
+                    int x = j;
+                    int y = i;
+
+                    if (_shapeParts.Any(sp => sp.X == x && sp.Y == y))
+                    {
+                        count++;
+                    }
+                }
+
+                if (count >= _width)
+                {
+                    rowsToRemove.Add(i);
                 }
             }
+
+            foreach (var row in rowsToRemove)
+            {
+                _shapeParts.RemoveAll(x => x.Y == row);
+
+                foreach (var affectedShapePart in _shapeParts.Where(x => x.Y < row))
+                {
+                    affectedShapePart.Y++;
+                }
+            }
+
+            return rowsToRemove.Count;
         }
     }
 }

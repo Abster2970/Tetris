@@ -11,5 +11,7 @@ namespace Tetris
         public static int CellSize { get; set; } = 30;
         public static int GameBoardWidth { get; set; } = 10;
         public static int GameBoardHeight { get; set; } = 20;
+        public static int PreviewWidth { get; set; } = 5;
+        public static int PreviewHeight { get; set; } = 5;
     }
 }

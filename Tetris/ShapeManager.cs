@@ -251,9 +251,8 @@ namespace Tetris
             var randomShapeParts = GetRandomShapeParts();
 
             var randomShape = new Shape();
-            randomShape.Id = Randomizer.GetRandomNumber(0, int.MaxValue);
             randomShape.SetShapeParts(randomShapeParts);
-            randomShape.Color = GetRandomColor();
+            randomShape.SetColor(GetRandomColor());
             randomShape.X = GameSettings.GameBoardWidth / 2;
 
             return randomShape;
