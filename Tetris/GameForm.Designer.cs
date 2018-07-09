@@ -31,7 +31,6 @@
             this.gameBoardPanel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.scoreLabel = new System.Windows.Forms.Label();
-            this.shapePreviewPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // gameBoardPanel
@@ -60,20 +59,11 @@
             this.scoreLabel.Size = new System.Drawing.Size(0, 24);
             this.scoreLabel.TabIndex = 2;
             // 
-            // shapePreviewPanel
-            // 
-            this.shapePreviewPanel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.shapePreviewPanel.Location = new System.Drawing.Point(282, 206);
-            this.shapePreviewPanel.Name = "shapePreviewPanel";
-            this.shapePreviewPanel.Size = new System.Drawing.Size(132, 132);
-            this.shapePreviewPanel.TabIndex = 1;
-            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 350);
-            this.Controls.Add(this.shapePreviewPanel);
+            this.ClientSize = new System.Drawing.Size(289, 350);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gameBoardPanel);
@@ -91,7 +81,6 @@
         private System.Windows.Forms.Panel gameBoardPanel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label scoreLabel;
-        private System.Windows.Forms.Panel shapePreviewPanel;
     }
 }
 

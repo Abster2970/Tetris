@@ -25,7 +25,10 @@ namespace Tetris
                 Color.BlueViolet,
                 Color.DeepSkyBlue,
                 Color.Green,
-                Color.Orange
+                Color.Orange,
+                Color.Cyan,
+                Color.Gold,
+                Color.Magenta
             };
         }
 
