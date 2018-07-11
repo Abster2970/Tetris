@@ -36,34 +36,34 @@ namespace Tetris
 
         private void GameTimer_Tick(object sender, EventArgs e)
         {
-            var shapeCopy = _gameBoard.CurrentShape.Copy();
-            shapeCopy.Y++;
+            var shape = _gameBoard.CurrentShape;
+            TryMoveDown(shape);
 
-            UpdateGameState(shapeCopy);
+            UpdateGameState();
         }
 
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
-            var shapeCopy = _gameBoard.CurrentShape.Copy();
+            var shape = _gameBoard.CurrentShape;
 
             if (e.KeyCode == Keys.A)
             {
-                shapeCopy.X--;
+                TryMoveLeft(shape);
             }
             if (e.KeyCode == Keys.S)
             {
-                shapeCopy.Y++;
+                TryMoveDown(shape);
             }
             if (e.KeyCode == Keys.D)
             {
-                shapeCopy.X++;
+                TryMoveRight(shape);
             }
             if (e.KeyCode == Keys.Space)
             {
-                shapeCopy.Rotate();
+                TryRotate(shape);
             }
 
-            UpdateGameState(shapeCopy);
+            UpdateGameState();
         }
 
         private void GameForm_Load(object sender, EventArgs e)
@@ -77,32 +77,63 @@ namespace Tetris
             _gameForm.UpdateGameBoard(_gameBoard);
         }
 
-        private void UpdateGameState(Shape shape)
+        private void TryRotate(Shape shape)
         {
-            var collision = _gameBoard.CheckShapeCollision(shape);
-            if (collision == CollisionType.None)
-            {
-                _gameBoard.CurrentShape.UpdateShape(shape);
-            }
+            if (_gameBoard.CanRotate(shape))
+                shape.Rotate();
+        }
 
-            if (collision == CollisionType.ShapePartOrBottom)
-            {
-                _gameBoard.SpawnShape();
-                int removedRows = _gameBoard.RemoveFullRows();
-                if (removedRows > 0)
-                {
-                    _score += (int)Math.Pow(10, removedRows);
-                    _gameForm.UpdateScore(_score);
-                }
-            }
+        private void TryMoveRight(Shape shape)
+        {
+            if (_gameBoard.CanMoveRight(shape))
+                shape.MoveRight();
+        }
 
-            if (collision == CollisionType.GameOver)
+        private void TryMoveDown(Shape shape)
+        {
+            if (_gameBoard.CanMoveDown(shape))
             {
-                GameOver();
+                shape.MoveDown();
             }
+            else
+            {
+                SpawnShape();
+                RemoveFullRows();
+            }
+        }
+
+        private void TryMoveLeft(Shape shape)
+        {
+            if (_gameBoard.CanMoveLeft(shape))
+                shape.MoveLeft();
+        }
+        
+        private void UpdateGameState()
+        {
+            var shape = _gameBoard.CurrentShape;
 
             _gameForm.UpdateGameBoard(_gameBoard);
             _gameForm.UpdateScore(_score);
+
+            if (_gameBoard.CollideWithTop(shape) && !_gameBoard.CanMoveDown(shape) ||
+                _gameBoard.CollideWithShapeParts(shape))
+            {
+                GameOver();
+            }
+        }
+
+        private void SpawnShape()
+        {
+            _gameBoard.SpawnShape();
+        }
+
+        private void RemoveFullRows()
+        {
+            int removedRows = _gameBoard.RemoveFullRows();
+            if (removedRows > 0)
+            {
+                _score += (int)Math.Pow(10, removedRows);
+            }
         }
 
         private void GameOver()

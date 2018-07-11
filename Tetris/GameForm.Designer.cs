@@ -31,7 +31,7 @@
             this.gameBoardPanel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.scoreLabel = new System.Windows.Forms.Label();
-            this.newGameBtn = new NotSelectableButton();
+            this.newGameBtn = new Tetris.NotSelectableButton();
             this.SuspendLayout();
             // 
             // gameBoardPanel
@@ -66,8 +66,9 @@
             // 
             this.newGameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.newGameBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(38)))));
+            this.newGameBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newGameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.newGameBtn.Location = new System.Drawing.Point(167, 11);
+            this.newGameBtn.Location = new System.Drawing.Point(368, 7);
             this.newGameBtn.Name = "newGameBtn";
             this.newGameBtn.Size = new System.Drawing.Size(119, 30);
             this.newGameBtn.TabIndex = 3;
@@ -81,7 +82,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(38)))));
-            this.ClientSize = new System.Drawing.Size(289, 380);
+            this.ClientSize = new System.Drawing.Size(499, 380);
             this.Controls.Add(this.newGameBtn);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.label1);

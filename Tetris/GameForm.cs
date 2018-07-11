@@ -99,7 +99,7 @@ namespace Tetris
                     int x = j * cellSize;
                     int y = i * cellSize;
 
-                    e.Graphics.DrawRectangle(new Pen(Color.FromArgb(100, 0, 0, 0), 1),
+                    e.Graphics.DrawRectangle(new Pen(Color.FromArgb(40, 0, 0, 0), 1),
                         new Rectangle(x, y, cellSize, cellSize));
                 }
             }

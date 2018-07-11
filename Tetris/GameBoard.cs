@@ -37,63 +37,148 @@ namespace Tetris
                 _shapeParts.AddRange(_currentShape.ShapeParts);
             }
             _currentShape = ShapeManager.GetRandomShape();
+            _currentShape.X = _width / 2;
+            var maxY = _currentShape.ShapeParts.Max(x => x.Y);
+            _currentShape.Y = -maxY;
         }
 
-        public CollisionType CheckShapeCollision(Shape shape)
-        {
-            if (CollideWithSideWalls(shape))
-            {
-                return CollisionType.SideWall;
-            }
 
-            if (CollideWithShapeParts(_currentShape) && CollideWithTop(_currentShape))
-            {
-                return CollisionType.GameOver;
-            }
-
-            if (CollideWithShapeParts(shape) || CollideWithBottom(shape))
-            {
-                return CollisionType.ShapePartOrBottom;
-            }
-
-            return CollisionType.None;
-        }
-
-        private bool CollideWithSideWalls(Shape shape)
-        {
-            foreach (var shapePart in shape.ShapeParts)
-            {
-                int offsetX = shapePart.X;
-                int offsetY = shapePart.Y;
-
-                int x = shape.X + offsetX;
-                int y = shape.Y + offsetY;
-
-                if (x < 0 || x >= _width)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool CollideWithBottom(Shape shape)
+        public bool CanMoveDown(Shape shape)
         {
             foreach (var shapePart in shape.ShapeParts)
             {
                 var shapePartY = shape.Y + shapePart.Y;
 
-                if (shapePartY >= _height)
+                if (shapePartY + 1 >= _height)
                 {
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
+            foreach (var otherShapePart in _shapeParts)
+            {
+                foreach (var shapePart in shape.ShapeParts)
+                {
+                    var shapePartX = shape.X + shapePart.X;
+                    var shapePartY = shape.Y + shapePart.Y;
+
+                    if (shapePartX == otherShapePart.X && shapePartY + 1 == otherShapePart.Y)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
-        private bool CollideWithTop(Shape shape)
+        public bool CanMoveRight(Shape shape)
+        {
+            foreach (var shapePart in shape.ShapeParts)
+            {
+                int shapePartX = shape.X + shapePart.X;
+
+                if (shapePartX + 1 >= _width)
+                {
+                    return false;
+                }
+            }
+
+            foreach (var otherShapePart in _shapeParts)
+            {
+                foreach (var shapePart in shape.ShapeParts)
+                {
+                    var shapePartX = shape.X + shapePart.X;
+                    var shapePartY = shape.Y + shapePart.Y;
+
+                    if (shapePartX + 1 == otherShapePart.X && shapePartY == otherShapePart.Y)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public bool CanMoveLeft(Shape shape)
+        {
+            foreach (var shapePart in shape.ShapeParts)
+            {
+                int shapePartX = shape.X + shapePart.X;
+
+                if (shapePartX - 1 < 0)
+                {
+                    return false;
+                }
+            }
+
+            foreach (var otherShapePart in _shapeParts)
+            {
+                foreach (var shapePart in shape.ShapeParts)
+                {
+                    var shapePartX = shape.X + shapePart.X - 1;
+                    var shapePartY = shape.Y + shapePart.Y;
+
+                    if (shapePartX == otherShapePart.X && shapePartY == otherShapePart.Y)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public bool CanRotate(Shape shape)
+        {
+            Shape shapeCopy = new Shape();
+
+            List<ShapePart> shapeParts = new List<ShapePart>();
+            foreach (var shapePart in shape.ShapeParts)
+            {
+                ShapePart shapePartCopy = new ShapePart();
+                shapePartCopy.X = shapePart.X;
+                shapePartCopy.Y = shapePart.Y;
+                shapePartCopy.IsPivotal = shapePart.IsPivotal;
+                shapeParts.Add(shapePartCopy);
+            }
+
+            shapeCopy.SetShapeParts(shapeParts);
+            shapeCopy.X = shape.X;
+            shapeCopy.Y = shape.Y;
+
+            shapeCopy.Rotate();
+
+            foreach (var shapePart in shapeCopy.ShapeParts)
+            {
+                int shapePartX = shape.X + shapePart.X;
+                int shapePartY = shape.Y + shapePart.Y;
+
+                if (shapePartX < 0 || shapePartX >= _width || shapePartY >= _height)
+                {
+                    return false;
+                }
+            }
+
+            foreach (var otherShapePart in _shapeParts)
+            {
+                foreach (var shapePart in shapeCopy.ShapeParts)
+                {
+                    var shapePartX = shape.X + shapePart.X;
+                    var shapePartY = shape.Y + shapePart.Y;
+
+                    if (shapePartX == otherShapePart.X && shapePartY == otherShapePart.Y)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public bool CollideWithTop(Shape shape)
         {
             foreach (var shapePart in shape.ShapeParts)
             {
@@ -108,7 +193,7 @@ namespace Tetris
             return false;
         }
 
-        private bool CollideWithShapeParts(Shape shape)
+        public bool CollideWithShapeParts(Shape shape)
         {
             foreach (var otherShapePart in _shapeParts)
             {

@@ -21,28 +21,6 @@ namespace Tetris
             _shapeParts = new List<ShapePart>();
         }
 
-        public Shape Copy()
-        {
-            Shape shape = new Shape();
-
-            List<ShapePart> shapeParts = new List<ShapePart>();
-            foreach (var shapePart in _shapeParts)
-            {
-                ShapePart shapePartCopy = new ShapePart();
-                shapePartCopy.Color = shapePart.Color;
-                shapePartCopy.X = shapePart.X;
-                shapePartCopy.Y = shapePart.Y;
-                shapePartCopy.IsPivotal = shapePart.IsPivotal;
-                shapeParts.Add(shapePartCopy);
-            }
-
-            shape.SetShapeParts(shapeParts);
-            shape.X = this.X;
-            shape.Y = this.Y;
-
-            return shape;
-        }
-
         // * (-1, -1) * (0, -1) * (1, -1)
         // * (-1,  0) ^ (0,  0) * (1,  0)
         // * (-1,  1) * (0,  1) * (1,  1)
@@ -95,6 +73,21 @@ namespace Tetris
             }
         }
 
+        public void MoveRight()
+        {
+            X++;
+        }
+
+        public void MoveLeft()
+        {
+            X--;
+        }
+
+        public void MoveDown()
+        {
+            Y++;
+        }
+
         public void SetShapeParts(IEnumerable<ShapePart> shapeParts)
         {
             _shapeParts = new List<ShapePart>(shapeParts);
@@ -107,14 +100,6 @@ namespace Tetris
                 shapePart.X = this.X + shapePart.X;
                 shapePart.Y = this.Y + shapePart.Y;
             }
-        }
-
-        public void UpdateShape(Shape shape)
-        {
-            _shapeParts = new List<ShapePart>(shape.ShapeParts);
-            
-            X = shape.X;
-            Y = shape.Y;
         }
 
         public void SetColor(Color color)
