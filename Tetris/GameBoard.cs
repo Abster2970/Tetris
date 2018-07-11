@@ -117,10 +117,10 @@ namespace Tetris
             {
                 foreach (var shapePart in shape.ShapeParts)
                 {
-                    var shapePartX = shape.X + shapePart.X - 1;
+                    var shapePartX = shape.X + shapePart.X;
                     var shapePartY = shape.Y + shapePart.Y;
 
-                    if (shapePartX == otherShapePart.X && shapePartY == otherShapePart.Y)
+                    if (shapePartX - 1 == otherShapePart.X && shapePartY == otherShapePart.Y)
                     {
                         return false;
                     }
