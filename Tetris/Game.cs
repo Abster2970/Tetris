@@ -88,14 +88,14 @@ namespace Tetris
         private void TryMoveRight(Shape shape)
         {
             if (_gameBoard.CanMoveRight(shape))
-                shape.MoveRight();
+                shape.X++;
         }
 
         private void TryMoveDown(Shape shape)
         {
             if (_gameBoard.CanMoveDown(shape))
             {
-                shape.MoveDown();
+                shape.Y++;
             }
             else
             {
@@ -107,7 +107,7 @@ namespace Tetris
         private void TryMoveLeft(Shape shape)
         {
             if (_gameBoard.CanMoveLeft(shape))
-                shape.MoveLeft();
+                shape.X--;
         }
         
         private void UpdateGameState()

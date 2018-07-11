@@ -91,21 +91,6 @@ namespace Tetris
             }
         }
 
-        public void MoveRight()
-        {
-            X++;
-        }
-
-        public void MoveLeft()
-        {
-            X--;
-        }
-
-        public void MoveDown()
-        {
-            Y++;
-        }
-
         public void SetShapeParts(IEnumerable<ShapePart> shapeParts)
         {
             _shapeParts = new List<ShapePart>(shapeParts);
