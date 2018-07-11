@@ -19,44 +19,19 @@ namespace Tetris
             _gameForm = gameForm;
             _gameForm.OnGameFormKeyDown += GameForm_KeyDown;
             _gameForm.OnGameFormLoad += GameForm_Load;
+            _gameForm.OnNewGameClick += GameForm_OnNewGameClick;
             _gameTimer = new Timer();
-            _gameTimer.Interval = 500;
+            _gameTimer.Interval = 700;
             _gameTimer.Tick += GameTimer_Tick;
             _gameTimer.Start();
         }
 
-        private void UpdateGameState(Shape shape)
+        private void GameForm_OnNewGameClick(object sender, EventArgs e)
         {
-            var collision = _gameBoard.CheckShapeCollision(shape);
-            if (collision == CollisionType.None)
-            {
-                _gameBoard.CurrentShape.UpdateShape(shape);
-            }
-
-            if (collision == CollisionType.ShapePartOrBottom)
-            {
-                _gameBoard.SpawnShape();
-                int removedRows = _gameBoard.RemoveFullRows();
-                if (removedRows > 0)
-                {
-                    _score += 10;
-                    _gameForm.UpdateScore(_score);
-                }
-            }
-
-            if (collision == CollisionType.GameOver)
-            {
-                GameOver();
-            }
-
-            _gameForm.UpdateGameBoard(_gameBoard);
-            _gameForm.UpdateScore(_score);
-        }
-
-        private void GameOver()
-        {
-            _gameTimer.Stop();
-            _gameForm.GameOver();
+            _score = 0;
+            _gameBoard.Clear();
+            _gameTimer.Start();
+            GameTimer_Tick(sender, e);
         }
 
         private void GameTimer_Tick(object sender, EventArgs e)
@@ -100,6 +75,40 @@ namespace Tetris
             _gameBoard = new GameBoard(width, height, cellSize);
             _gameBoard.SpawnShape();
             _gameForm.UpdateGameBoard(_gameBoard);
+        }
+
+        private void UpdateGameState(Shape shape)
+        {
+            var collision = _gameBoard.CheckShapeCollision(shape);
+            if (collision == CollisionType.None)
+            {
+                _gameBoard.CurrentShape.UpdateShape(shape);
+            }
+
+            if (collision == CollisionType.ShapePartOrBottom)
+            {
+                _gameBoard.SpawnShape();
+                int removedRows = _gameBoard.RemoveFullRows();
+                if (removedRows > 0)
+                {
+                    _score += (int)Math.Pow(10, removedRows);
+                    _gameForm.UpdateScore(_score);
+                }
+            }
+
+            if (collision == CollisionType.GameOver)
+            {
+                GameOver();
+            }
+
+            _gameForm.UpdateGameBoard(_gameBoard);
+            _gameForm.UpdateScore(_score);
+        }
+
+        private void GameOver()
+        {
+            _gameTimer.Stop();
+            _gameForm.GameOver();
         }
     }
 }

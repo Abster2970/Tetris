@@ -21,9 +21,10 @@ namespace Tetris
             
             this.AutoSize = true;
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.KeyPreview = true;
             gameBoardPanel.Paint += GameBoardPanel_Paint;
             gameBoardPanel.BorderStyle = BorderStyle.FixedSingle;
-            gameBoardPanel.BackColor = Color.White;
+            gameBoardPanel.BackColor = Color.FromArgb(36, 36, 38);
 
             typeof(Panel).InvokeMember("DoubleBuffered",
                 BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
@@ -106,6 +107,7 @@ namespace Tetris
 
         public event EventHandler<KeyEventArgs> OnGameFormKeyDown;
         public event EventHandler OnGameFormLoad;
+        public event EventHandler OnNewGameClick;
 
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
@@ -115,6 +117,11 @@ namespace Tetris
         private void GameForm_Load(object sender, EventArgs e)
         {
             OnGameFormLoad(sender, e);
+        }
+
+        private void NewGameBtn_Click(object sender, EventArgs e)
+        {
+            OnNewGameClick(sender, e);
         }
 
         public void GameOver()

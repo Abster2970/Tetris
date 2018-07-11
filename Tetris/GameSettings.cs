@@ -8,8 +8,8 @@ namespace Tetris
 {
     public static class GameSettings
     {
-        public static int CellSize { get; set; } = 30;
-        public static int GameBoardWidth { get; set; } = 10;
-        public static int GameBoardHeight { get; set; } = 20;
+        public static int CellSize { get; set; } = 35;
+        public static int GameBoardWidth { get; set; } = 13;
+        public static int GameBoardHeight { get; set; } = 22;
     }
 }

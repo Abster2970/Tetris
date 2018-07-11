@@ -21,14 +21,11 @@ namespace Tetris
         {
             _availableColors = new List<Color>
             {
-                Color.Red,
                 Color.BlueViolet,
-                Color.DeepSkyBlue,
-                Color.Green,
-                Color.Orange,
                 Color.Cyan,
                 Color.Gold,
-                Color.Magenta
+                Color.Green,
+                Color.Red
             };
         }
 
@@ -65,9 +62,9 @@ namespace Tetris
                         }
                     };
                 case 1:
-                    // *
-                    // *
                     // ^ *
+                    // *
+                    // *
                     return new List<ShapePart>
                     {
                         new ShapePart
@@ -84,12 +81,12 @@ namespace Tetris
                         new ShapePart
                         {
                             X = 0,
-                            Y = -1
+                            Y = 1
                         },
                         new ShapePart
                         {
                             X = 0,
-                            Y = -2
+                            Y = 2
                         }
                     };
                 case 2:
@@ -121,8 +118,9 @@ namespace Tetris
                         }
                     };
                 case 3:
-                    // * ^ * 
-                    // *   *
+                    // * ^
+                    //   *
+                    //   *
                     return new List<ShapePart> {
                         new ShapePart
                         {
@@ -137,24 +135,19 @@ namespace Tetris
                         },
                         new ShapePart
                         {
-                            X = -1,
+                            X = 0,
                             Y = 1
                         },
                         new ShapePart
                         {
-                            X = 1,
-                            Y = 0
-                        },
-                        new ShapePart
-                        {
-                            X = 1,
-                            Y = 1
+                            X = 0,
+                            Y = 2
                         }
                     };
                 case 4:
-                    //   * *
-                    //   ^
-                    // * *
+                    //   *
+                    // * ^
+                    // *
                     return new List<ShapePart> {
                         new ShapePart
                         {
@@ -169,13 +162,8 @@ namespace Tetris
                         },
                         new ShapePart
                         {
-                            X = 1,
-                            Y = -1
-                        },
-                        new ShapePart
-                        {
-                            X = 0,
-                            Y = 1
+                            X = -1,
+                            Y = 0
                         },
                         new ShapePart
                         {
@@ -184,8 +172,9 @@ namespace Tetris
                         }
                     };
                 case 5:
-                    //   ^ *
-                    // * *
+                    // *
+                    // * ^
+                    //   *
                     return new List<ShapePart> {
                         new ShapePart
                         {
@@ -195,17 +184,17 @@ namespace Tetris
                         },
                         new ShapePart
                         {
-                            X = 1,
+                            X = -1,
                             Y = 0
                         },
                         new ShapePart
                         {
-                            X = 0,
-                            Y = 1
+                            X = -1,
+                            Y = -1
                         },
                         new ShapePart
                         {
-                            X = -1,
+                            X = 0,
                             Y = 1
                         }
                     };

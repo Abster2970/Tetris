@@ -164,5 +164,12 @@ namespace Tetris
 
             return rowsToRemove.Count;
         }
+
+        public void Clear()
+        {
+            _shapeParts.Clear();
+            _currentShape = null;
+            SpawnShape();
+        }
     }
 }
