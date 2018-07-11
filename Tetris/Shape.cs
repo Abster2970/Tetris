@@ -21,6 +21,24 @@ namespace Tetris
             _shapeParts = new List<ShapePart>();
         }
 
+        public Shape(Shape shape)
+        {
+            List<ShapePart> shapeParts = new List<ShapePart>();
+            foreach (var shapePart in shape.ShapeParts)
+            {
+                ShapePart shapePartCopy = new ShapePart();
+                shapePartCopy.Color = shapePart.Color;
+                shapePartCopy.X = shapePart.X;
+                shapePartCopy.Y = shapePart.Y;
+                shapePartCopy.IsPivotal = shapePart.IsPivotal;
+                shapeParts.Add(shapePartCopy);
+            }
+
+            this.SetShapeParts(shapeParts);
+            this.X = shape.X;
+            this.Y = shape.Y;
+        }
+
         // * (-1, -1) * (0, -1) * (1, -1)
         // * (-1,  0) ^ (0,  0) * (1,  0)
         // * (-1,  1) * (0,  1) * (1,  1)

@@ -11,37 +11,46 @@ namespace Tetris
     {
         public int Width => _width;
         public int Height => _height;
-        public int CellSize => _cellSize;
         public List<ShapePart> ShapeParts => _shapeParts;
         public Shape CurrentShape => _currentShape;
-        
+        public Shape NextShape => _nextShape;
+
         private int _width;
         private int _height;
-        private int _cellSize;
         private List<ShapePart> _shapeParts;
         private Shape _currentShape;
+        private Shape _nextShape;
 
-        public GameBoard(int width, int height, int cellSize)
+        public GameBoard(int width, int height)
         {
             _shapeParts = new List<ShapePart>();
             _width = width;
             _height = height;
-            _cellSize = cellSize;
         }
 
         public void SpawnShape()
         {
+            if (_nextShape == null)
+            {
+                PrepareNextShape();
+            }
+
             if (_currentShape != null)
             {
                 _currentShape.SetShapePartsFree();
                 _shapeParts.AddRange(_currentShape.ShapeParts);
             }
-            _currentShape = ShapeManager.GetRandomShape();
-            _currentShape.X = _width / 2;
-            var maxY = _currentShape.ShapeParts.Max(x => x.Y);
-            _currentShape.Y = -maxY;
+            _currentShape = new Shape(_nextShape);
+            PrepareNextShape();
         }
 
+        private void PrepareNextShape()
+        {
+            _nextShape = ShapeManager.GetRandomShape();
+            _nextShape.X = _width / 2;
+            var maxY = _nextShape.ShapeParts.Max(x => x.Y);
+            _nextShape.Y = -maxY;
+        }
 
         public bool CanMoveDown(Shape shape)
         {
@@ -132,21 +141,7 @@ namespace Tetris
 
         public bool CanRotate(Shape shape)
         {
-            Shape shapeCopy = new Shape();
-
-            List<ShapePart> shapeParts = new List<ShapePart>();
-            foreach (var shapePart in shape.ShapeParts)
-            {
-                ShapePart shapePartCopy = new ShapePart();
-                shapePartCopy.X = shapePart.X;
-                shapePartCopy.Y = shapePart.Y;
-                shapePartCopy.IsPivotal = shapePart.IsPivotal;
-                shapeParts.Add(shapePartCopy);
-            }
-
-            shapeCopy.SetShapeParts(shapeParts);
-            shapeCopy.X = shape.X;
-            shapeCopy.Y = shape.Y;
+            Shape shapeCopy = new Shape(shape);
 
             shapeCopy.Rotate();
 

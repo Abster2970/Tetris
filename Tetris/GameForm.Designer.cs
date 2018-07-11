@@ -32,6 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.scoreLabel = new System.Windows.Forms.Label();
             this.newGameBtn = new Tetris.NotSelectableButton();
+            this.nextShapePreviewPanel = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameBoardPanel
@@ -64,11 +66,11 @@
             // 
             // newGameBtn
             // 
-            this.newGameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.newGameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.newGameBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(38)))));
             this.newGameBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newGameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.newGameBtn.Location = new System.Drawing.Point(368, 7);
+            this.newGameBtn.Location = new System.Drawing.Point(520, 338);
             this.newGameBtn.Name = "newGameBtn";
             this.newGameBtn.Size = new System.Drawing.Size(119, 30);
             this.newGameBtn.TabIndex = 3;
@@ -77,12 +79,31 @@
             this.newGameBtn.UseVisualStyleBackColor = false;
             this.newGameBtn.Click += new System.EventHandler(this.NewGameBtn_Click);
             // 
+            // nextShapePreviewPanel
+            // 
+            this.nextShapePreviewPanel.Location = new System.Drawing.Point(481, 48);
+            this.nextShapePreviewPanel.Name = "nextShapePreviewPanel";
+            this.nextShapePreviewPanel.Size = new System.Drawing.Size(119, 151);
+            this.nextShapePreviewPanel.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(477, 13);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(122, 24);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Next shape:";
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(38)))));
-            this.ClientSize = new System.Drawing.Size(499, 380);
+            this.ClientSize = new System.Drawing.Size(650, 380);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.nextShapePreviewPanel);
             this.Controls.Add(this.newGameBtn);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.label1);
@@ -103,6 +124,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label scoreLabel;
         private NotSelectableButton newGameBtn;
+        private System.Windows.Forms.Panel nextShapePreviewPanel;
+        private System.Windows.Forms.Label label2;
     }
 }
 

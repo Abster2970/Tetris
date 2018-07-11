@@ -23,7 +23,6 @@ namespace Tetris
             _gameTimer = new Timer();
             _gameTimer.Interval = 700;
             _gameTimer.Tick += GameTimer_Tick;
-            _gameTimer.Start();
         }
 
         private void GameForm_OnNewGameClick(object sender, EventArgs e)
@@ -45,6 +44,10 @@ namespace Tetris
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
             var shape = _gameBoard.CurrentShape;
+            if (shape == null)
+            {
+                return;
+            }
 
             if (e.KeyCode == Keys.A)
             {
@@ -70,10 +73,9 @@ namespace Tetris
         {
             int width = GameSettings.GameBoardWidth;
             int height = GameSettings.GameBoardHeight;
-            int cellSize = GameSettings.CellSize;
 
-            _gameBoard = new GameBoard(width, height, cellSize);
-            _gameBoard.SpawnShape();
+            _gameBoard = new GameBoard(width, height);
+            //_gameBoard.SpawnShape();
             _gameForm.UpdateGameBoard(_gameBoard);
         }
 
