@@ -24,8 +24,8 @@ namespace Tetris
             this.KeyPreview = true;
 
             gameBoardPanel.Paint += GameBoardPanel_Paint;
-            gameBoardPanel.Width = GameSettings.GameBoardWidth * GameSettings.CellSize;
-            gameBoardPanel.Height = GameSettings.GameBoardHeight * GameSettings.CellSize;
+            gameBoardPanel.Width = GameSettings.GameBoardWidth * GameSettings.CellSize + 3;
+            gameBoardPanel.Height = GameSettings.GameBoardHeight * GameSettings.CellSize + 3;
             gameBoardPanel.BorderStyle = BorderStyle.FixedSingle;
             gameBoardPanel.BackColor = Color.FromArgb(36, 36, 38);
             typeof(Panel).InvokeMember("DoubleBuffered",
@@ -33,8 +33,8 @@ namespace Tetris
                 null, gameBoardPanel, new object[] { true });
 
             nextShapePreviewPanel.Paint += NextShapePreviewPanel_Paint;
-            nextShapePreviewPanel.Width = GameSettings.PreviewWidth * GameSettings.CellSize;
-            nextShapePreviewPanel.Height = GameSettings.PreviewHeight * GameSettings.CellSize;
+            nextShapePreviewPanel.Width = GameSettings.PreviewWidth * GameSettings.CellSize + 3;
+            nextShapePreviewPanel.Height = GameSettings.PreviewHeight * GameSettings.CellSize + 3;
             nextShapePreviewPanel.BorderStyle = BorderStyle.FixedSingle;
             nextShapePreviewPanel.BackColor = Color.FromArgb(36, 36, 38);
             typeof(Panel).InvokeMember("DoubleBuffered",
@@ -53,6 +53,17 @@ namespace Tetris
         public void UpdateScore(int score)
         {
             scoreLabel.Text = score.ToString();
+
+            int bestScore = ScoreManager.GetMax();
+            if (score > bestScore)
+            {
+                scoreLabel.Text += " (New record!)";
+                bestScoreLabel.Text = score.ToString();
+            }
+            else
+            {
+                bestScoreLabel.Text = bestScore.ToString();
+            }
         }
 
         private void NextShapePreviewPanel_Paint(object sender, PaintEventArgs e)

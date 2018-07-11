@@ -44,26 +44,23 @@ namespace Tetris
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
             var shape = _gameBoard.CurrentShape;
-            if (shape == null)
+            
+            switch (e.KeyCode)
             {
-                return;
-            }
-
-            if (e.KeyCode == Keys.A)
-            {
-                TryMoveLeft(shape);
-            }
-            if (e.KeyCode == Keys.S)
-            {
-                TryMoveDown(shape);
-            }
-            if (e.KeyCode == Keys.D)
-            {
-                TryMoveRight(shape);
-            }
-            if (e.KeyCode == Keys.Space)
-            {
-                TryRotate(shape);
+                case Keys.A:
+                    TryMoveLeft(shape);
+                    break;
+                case Keys.S:
+                    TryMoveDown(shape);
+                    break;
+                case Keys.D:
+                    TryMoveRight(shape);
+                    break;
+                case Keys.Space:
+                    TryRotate(shape);
+                    break;
+                default:
+                    return;
             }
 
             UpdateGameState();
@@ -75,8 +72,8 @@ namespace Tetris
             int height = GameSettings.GameBoardHeight;
 
             _gameBoard = new GameBoard(width, height);
-            //_gameBoard.SpawnShape();
             _gameForm.UpdateGameBoard(_gameBoard);
+            ScoreManager.Load();
         }
 
         private void TryRotate(Shape shape)
@@ -142,6 +139,8 @@ namespace Tetris
         {
             _gameTimer.Stop();
             _gameForm.GameOver();
+            ScoreManager.AddScore(_score);
+            ScoreManager.Save();
         }
     }
 }

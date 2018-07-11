@@ -34,6 +34,8 @@
             this.newGameBtn = new Tetris.NotSelectableButton();
             this.nextShapePreviewPanel = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.bestScoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameBoardPanel
@@ -96,12 +98,35 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Next shape:";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(216)))), ((int)(((byte)(216)))));
+            this.label3.Location = new System.Drawing.Point(281, 13);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(114, 24);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Best score:";
+            // 
+            // bestScoreLabel
+            // 
+            this.bestScoreLabel.AutoSize = true;
+            this.bestScoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bestScoreLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(216)))), ((int)(((byte)(216)))));
+            this.bestScoreLabel.Location = new System.Drawing.Point(395, 13);
+            this.bestScoreLabel.Name = "bestScoreLabel";
+            this.bestScoreLabel.Size = new System.Drawing.Size(0, 24);
+            this.bestScoreLabel.TabIndex = 6;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(38)))));
             this.ClientSize = new System.Drawing.Size(650, 380);
+            this.Controls.Add(this.bestScoreLabel);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nextShapePreviewPanel);
             this.Controls.Add(this.newGameBtn);
@@ -126,6 +151,8 @@
         private NotSelectableButton newGameBtn;
         private System.Windows.Forms.Panel nextShapePreviewPanel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label bestScoreLabel;
     }
 }
 
